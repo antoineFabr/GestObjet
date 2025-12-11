@@ -78,5 +78,23 @@ export default class SallesController {
   /**
    * Delete record
    */
-  async delete({ params }: HttpContext) {}
+  async delete({ params, response }: HttpContext) {
+    const id = params.id
+    try {
+      if (isNaN(Number(id))) {
+        return response.status(404).send("l'id de la salle doit etre un nombre")
+      }
+
+      const salle = await Salle.findByOrFail('id', id)
+      if (!salle) {
+        return response.status(404).send("la salle n'a pas été trouvé")
+      }
+      await salle.delete()
+
+      return response.status(200).send(`la salle ${id} a bien été supprimer !`)
+    } catch (err) {
+      logger.error({ err: err }, `Erreur lors de la suppression de la salle ${id}`)
+      return response.status(500).send(`Erreur lors de la suppression de la salle ${id}`)
+    }
+  }
 }
