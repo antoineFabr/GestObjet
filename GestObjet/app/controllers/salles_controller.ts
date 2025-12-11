@@ -53,7 +53,27 @@ export default class SallesController {
   /**
    * Edit individual record
    */
-  async modify({ params }: HttpContext) {}
+  async modify({ params, request, response }: HttpContext) {
+    const id = params.id
+    try {
+      if (isNaN(Number(id))) {
+        return response.status(404).send("l'id de la salle doit etre un nombre")
+      }
+      const payload = await request.validateUsing(SalleValidator)
+      console.log(payload)
+      const salle = await Salle.findByOrFail('id', id)
+      if (!salle) {
+        return response.status(404).send("la salle n'a pas été trouvé")
+      }
+      salle.merge(payload)
+      await salle.save()
+
+      return response.status(200).send('la salle a bien été modifié')
+    } catch (err) {
+      logger.error({ err: err }, `erreur lors de la modification de la salle ${id}`)
+      return response.status(500).send(`erreur lors de la modification de la salle ${id}`)
+    }
+  }
 
   /**
    * Delete record
