@@ -17,14 +17,17 @@ class Salle {
   }
 }
 
-const baseUrl = "http://localhost:3333/api/";
+const baseUrl = "http://localhost:3333/api";
 Future<List<Salle>> getAllSalle() async {
   final response = await http.get(Uri.parse('$baseUrl/salle/'));
+  print(response);
   if (response.statusCode == 200) {
-    final jsonBody = jsonDecode(response.body);
-    final List<dynamic> data = jsonBody['data'];
-    return data.map((json) => Salle.fromJson(json)).toList();
+    final List<dynamic> jsonBody = jsonDecode(response.body);
+    print(jsonBody);
+    return jsonBody.map((json) => Salle.fromJson(json)).toList();
   } else {
+    print("failed to load salles");
+
     throw Exception('failed to load Salles');
   }
 }

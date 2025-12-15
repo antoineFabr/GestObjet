@@ -26,22 +26,34 @@ class _HomePageState extends State<HomePage> {
           print('snapshot.data = ${snapshot.data}');
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          print('snapshot.data = ${snapshot.data}');
-          return Center(child: Text('Erreur ${snapshot.error}'));
+          print('erreur : ${snapshot.error}');
+
+          return Center(
+            child: Text('Impossible de récupérer les informations'),
+          );
         } else if (snapshot.data == null || snapshot.data!.isEmpty) {
           print('snapshot.data = ${snapshot.data}');
-          return const Center(child: Text('Aucun livre dispo'));
+          return const Center(child: Text('Aucune salle dispo'));
         } else {
           List<Salle> salles = snapshot.data!;
 
           return Column(
             children: [
               Expanded(
-                child: ListView.builder(
+                child: ListView.separated(
+                  // 1. Ajoute de l'espace tout autour de la liste (haut, bas, gauche, droite)
+                  padding: const EdgeInsets.all(20),
+
                   itemCount: salles.length,
+
+                  // 2. Ajoute de l'espace entre chaque carte (ici 20 pixels verticalement)
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 20),
+
                   itemBuilder: (context, index) {
                     final salle = salles[index];
-                    return SalleWidget(salle);
+                    // 3. Center permet de centrer votre carte de 300px au milieu de l'écran
+                    return Center(child: SalleWidget(salle));
                   },
                 ),
               ),
