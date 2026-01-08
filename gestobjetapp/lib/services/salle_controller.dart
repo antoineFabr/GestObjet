@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:http/http.dart' as http;
 import 'package:gestobjetapp/services/objet_controller.dart';
 
@@ -6,24 +7,24 @@ class Salle {
   final String id;
   final String numero;
   final String batiment;
-  final List<Objet> objets;
+  final List<String> objetsIds;
 
-  const Salle({required this.id, required this.batiment, required this.numero, this.objets = const []});
+  const Salle({required this.id, required this.batiment, required this.numero, this.objetsIds = const []});
 
   factory Salle.fromJson(Map<String, dynamic> json) {
     return Salle(
       id: json['_id'] as String,
       numero: json['numero'] as String,
       batiment: json['batiment'] as String,
-      objets: [],
+      objetsIds: (json['objets'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
     );
   }
-  Salle copyWith({List<Objet>? objets}) {
+  Salle copyWith({List<String>? objetsIds}) {
     return Salle(
       id: this.id,
       numero: this.numero,
       batiment: this.batiment,
-      objets: objets ?? this.objets,
+      objetsIds: objetsIds ?? this.objetsIds,
     );
   }
 }
@@ -44,7 +45,15 @@ Future<List<Salle>> getAllSalle() async {
 }
 
 Future<List<Objet>> getObjetsBySalleId(String salleId) async {
-  final response = await http.get(Uri.parse('$baseUrl'))
+  final response = await http.get(Uri.parse('$baseUrl/salle/$salleId/objets'));
+  if (response.statusCode == 200) {
+    final List<dynamic> jsonBody = jsonDecode(response.body);
+
+    return jsonBody.map((json) => Objet.fromJson(json)).toList();
+  } else {
+    print("erreur chargement objets pour la salle $salleId");
+    return [];
+  }
 }
 
 Future<Salle> getSalleById(String id) async {
