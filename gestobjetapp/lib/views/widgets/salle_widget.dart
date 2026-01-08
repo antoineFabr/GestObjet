@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestobjetapp/services/salle_controller.dart';
-import 'package:gestobjetapp/views/pages/scanning_page.dart';
+import 'package:gestobjetapp/views/pages/objet_page.dart';
 
 class SalleWidget extends StatelessWidget {
   final Salle salle;
@@ -16,7 +16,7 @@ class SalleWidget extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Navigator.of(context).push(
-            MaterialPageRoute<void>(builder: (context) => const ScanningPage())
+            MaterialPageRoute<void>(builder: (context) => ObjetPage(SalleId: salle.id,))
           );
         },
         borderRadius: BorderRadius.circular(24),
