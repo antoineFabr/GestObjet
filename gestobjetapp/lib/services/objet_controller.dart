@@ -25,20 +25,26 @@ class Objet {
           : null, // Si le backend n'a pas envoyé le type ou juste un ID string
       // Bonus : Gestion de la date
       createdAt: json['createdAt'] != null
-          ? DateTime.parse(json['createdAt'])
+          ? DateTime.tryParse(json['createdAt'])
           : null,
     );
   }
 }
 
-const baseUrl = "http://localhost:3333/api/";
+const baseUrl = "http://localhost:3333/api";
 
 Future<List<Objet>> getObjetBySalle(String id) async {
   final response = await http.get(Uri.parse('$baseUrl/salle/$id'));
   if (response.statusCode == 200) {
-    final jsonBody = jsonDecode(response.body);
-    final List<dynamic> data = jsonBody['data'];
-    return data.map((json) => Objet.fromJson(json)).toList();
+    final dynamic jsonBody = jsonDecode(response.body);
+    if (jsonBody is List) {
+        return jsonBody.map((json) => Objet.fromJson(json)).toList();
+      } else if (jsonBody is Map && jsonBody.containsKey('data')) {
+        // Au cas où le backend changerait pour renvoyer { data: [...] }
+        return (jsonBody['data'] as List).map((json) => Objet.fromJson(json)).toList();
+      } else {
+        throw Exception("Format JSON inattendu : Ce n'est pas une liste.");
+      }
   } else {
     throw Exception('failed to load classes');
   }

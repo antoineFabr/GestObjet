@@ -2,6 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import logger from '@adonisjs/core/services/logger'
 import Salle from '#models/salle'
 import { SalleValidator } from '#validators/salle'
+import Type from '#models/type';
 
 export default class SallesController {
   /**

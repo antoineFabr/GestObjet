@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose'
-
+import "./type.js"
 export interface IObjet extends Document {
   qrCode: string
   type: mongoose.Types.ObjectId // Référence vers le Type
