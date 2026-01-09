@@ -27,7 +27,6 @@ class ObjetFilterWidget extends StatelessWidget {
     final categoryList = categories.entries.toList();
 
     return Material(
-      color: Colors.white, // Fond blanc propre
       child: ListView.separated(
         itemCount: categoryList.length,
         separatorBuilder: (ctx, index) => const Divider(), // Ligne entre chaque item
@@ -40,11 +39,9 @@ class ObjetFilterWidget extends StatelessWidget {
 
           // 3. Affichage
           return ListTile(
-            leading: const Icon(Icons.category), // Petite icône sympa
             title: Text(nomCategorie),           // Le nom de la catégorie
             trailing: CircleAvatar(              // Un cercle avec le nombre à droite
               radius: 15,
-              backgroundColor: Colors.blue.shade100,
               child: Text(
                 nombreObjets.toString(),
                 style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
