@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestobjetapp/services/objet_controller.dart';
 import 'package:gestobjetapp/views/widgets/objet_filter_widget.dart';
+import 'package:gestobjetapp/views/pages/objet_add_page.dart';
 
 class ObjetPage extends StatefulWidget {
   final String SalleId;
@@ -47,7 +48,11 @@ class _ObjetPageState extends State<ObjetPage> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {}, 
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(builder: (context) => ObjetAddPage())
+                    );
+                  }, 
                   child: Icon(Icons.add),
                 )   
               ],
