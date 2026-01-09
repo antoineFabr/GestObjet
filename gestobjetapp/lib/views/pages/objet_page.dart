@@ -35,12 +35,21 @@ class _ObjetPageState extends State<ObjetPage> {
           
             body: Column( 
               children: [
-                ObjetFilterWidget(objets: objets), 
-                TextButton.icon(onPressed: () {}, label: Text("Verifier"),style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all<Color>(Colors.blue)
+                Expanded(
+                  child: ObjetFilterWidget(objets: objets), 
+                ),
+
+                TextButton.icon(
+                  onPressed: () {},
+                  label: Text("Verifier"),
+                  style: ButtonStyle(
+                    foregroundColor: WidgetStateProperty.all<Color>(Colors.blue),
                   ),
                 ),
-                TextButton(onPressed: () {}, child: Icon(Icons.add))   
+                TextButton(
+                  onPressed: () {}, 
+                  child: Icon(Icons.add),
+                )   
               ],
             ),
           );
