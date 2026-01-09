@@ -9,10 +9,13 @@ class ObjetAddPage extends StatefulWidget {
 
 class _ObjetAddPageState extends State<ObjetAddPage> {
   final _formKey = GlobalKey<FormState>();
-
+  late Future<List<Type>> futureType;
+  void initState() {
+    super.initState();
+    futureType = getAllSalle();
+  }
   @override
   Widget build(BuildContext context) {
-    // CORRECTION : On commence par un Scaffold
     return Scaffold(
       appBar: AppBar(
         title: const Text("Ajouter un objet"),
@@ -24,14 +27,16 @@ class _ObjetAddPageState extends State<ObjetAddPage> {
           key: _formKey,
           child: Column(
             children: [
+              DropdownButton(items: items, onChanged: onChanged)
+
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: "Nom de l'objet", // Ajout d'un label pour l'UX
+                  labelText: "Code de l'objet", // Ajout d'un label pour l'UX
                   border: OutlineInputBorder(), // Ajout d'une bordure
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "Il faut entrer du texte ici";
+                    return "Il faut entrer le code de l'objet";
                   }
                   return null;
                 },

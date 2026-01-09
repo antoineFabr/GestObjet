@@ -34,7 +34,7 @@ class _ObjetPageState extends State<ObjetPage> {
           return 
           Scaffold(
             appBar: AppBar(
-              title: Text("Objets de la salle ${widget.SalleId}"),
+              title: Text("Objets de la salle"),
             ),
             body: Column( 
               children: [
