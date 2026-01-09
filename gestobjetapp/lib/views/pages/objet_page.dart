@@ -33,10 +33,16 @@ class _ObjetPageState extends State<ObjetPage> {
           return 
           Scaffold(
           
-            body: ObjetFilterWidget(objets: objets),
-            bottomNavigationBar: TextButton.icon(onPressed: () {}, label: Text("Verifier"),style: ButtonStyle(
-              foregroundColor: WidgetStateProperty.all<Color>(Colors.blue)
-            ),),
+            body: Column( 
+              children: [
+                ObjetFilterWidget(objets: objets), 
+                TextButton.icon(onPressed: () {}, label: Text("Verifier"),style: ButtonStyle(
+                  foregroundColor: WidgetStateProperty.all<Color>(Colors.blue)
+                  ),
+                ),
+                TextButton(onPressed: () {}, child: Icon(Icons.add))   
+              ],
+            ),
           );
         }
       },
