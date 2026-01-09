@@ -34,7 +34,7 @@ class Objet {
 const baseUrl = "http://localhost:3333/api";
 
 Future<List<Objet>> getObjetBySalle(String id) async {
-  final response = await http.get(Uri.parse('$baseUrl/salle/$id'));
+  final response = await http.get(Uri.parse('$baseUrl/salle/$id/objets'));
   if (response.statusCode == 200) {
     final dynamic jsonBody = jsonDecode(response.body);
     if (jsonBody is List) {

@@ -25,9 +25,9 @@ class _ObjetPageState extends State<ObjetPage> {
           print('snapshot.data = ${snapshot.data}');
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(child: Text('Impossible de récuperer les objets'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No objets found'));
+          return Center(child: Text('No objets found'));
         } else {
           final objets = snapshot.data!;
           return ObjetFilterWidget(objets: objets);
