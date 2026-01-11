@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gestobjetapp/services/objet_controller.dart';
-import 'package:gestobjetapp/views/widgets/objet_filter_widget.dart';
-import 'package:gestobjetapp/views/pages/objet_add_page.dart';
+import 'package:gestobjetapp/features/inventory/data/repositories/objet_controller.dart';
+import 'package:gestobjetapp/features/inventory/presentation/widgets/objet_filter_widget.dart';
+import 'package:gestobjetapp/features/inventory/presentation/pages/objet_add_page.dart';
 
 class ObjetPage extends StatefulWidget {
   final String SalleId;

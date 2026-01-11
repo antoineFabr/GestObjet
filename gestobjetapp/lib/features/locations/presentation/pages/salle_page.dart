@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gestobjetapp/services/salle_controller.dart';
-import 'package:gestobjetapp/views/widgets/salle_widget.dart';
+import 'package:gestobjetapp/features/locations/data/repositories/salle_controller.dart';
+import 'package:gestobjetapp/features/locations/presentation/widgets/salle_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

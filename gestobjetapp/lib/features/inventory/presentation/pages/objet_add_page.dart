@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gestobjetapp/services/type_controller.dart';
-import 'package:gestobjetapp/services/objet_controller.dart';
+import 'package:gestobjetapp/features/inventory/data/repositories/type_controller.dart';
+import 'package:gestobjetapp/features/inventory/data/repositories/objet_controller.dart';
 
 class ObjetAddPage extends StatefulWidget {
   final String SalleId;

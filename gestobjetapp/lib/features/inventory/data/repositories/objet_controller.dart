@@ -1,4 +1,4 @@
-import 'package:gestobjetapp/services/type_controller.dart';
+import 'package:gestobjetapp/features/inventory/data/repositories/type_controller.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 

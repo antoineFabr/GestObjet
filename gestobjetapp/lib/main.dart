@@ -1,4 +1,4 @@
-import 'package:gestobjetapp/views/widget_tree.dart';
+import 'package:gestobjetapp/features/app/presentation/pages/widget_tree.dart';
 import 'package:flutter/material.dart';
 
 void main() {
