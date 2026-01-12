@@ -97,7 +97,7 @@ class _ObjetAddPageState extends State<ObjetAddPage> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Création de l'objet")),
+                      const SnackBar(content: Text("Création de l'objet"))
                     );
                     final success = await context
                         .read<InventoryNotifier>()

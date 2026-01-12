@@ -42,7 +42,7 @@ class _ObjetPageState extends State<ObjetPage> {
       appBar: AppBar(title: const Text("Objets de la salle")),
       body: Builder(
         builder: (context) {
-          // 1. Cas : Chargement
+
           if (inventoryNotifier.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -63,16 +63,22 @@ class _ObjetPageState extends State<ObjetPage> {
             );
           }
 
-          // 3. Cas : Liste vide
-          // (Adaptez 'objets' selon le nom de la liste dans votre InventoryNotifier)
-          if (inventoryNotifier.objets!.isEmpty) {
-            return const Center(child: Text("Aucun objet trouvé dans cette salle."));
-          }
+
+          
 
           // 4. Cas : Affichage des données
           return Column(
             children: [
-              Expanded(child: ObjetFilterWidget(objets: inventoryNotifier.objets!)),
+              if (inventoryNotifier.objets!.isEmpty) 
+                const Expanded( // J'ajoute Expanded pour que le message soit bien centré au milieu de l'écran
+                  child: Center(
+                    child: Text("Aucun objet trouvé dans cette salle."),
+                  ),
+                )
+              else 
+                Expanded(
+                  child: ObjetFilterWidget(objets: inventoryNotifier.objets!)
+                ),
               
               // Vos boutons d'action
               Padding(
