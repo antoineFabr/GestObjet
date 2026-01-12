@@ -67,5 +67,19 @@ export default class ObjetsController {
   /**
    * Delete record
    */
-  async delete({ params }: HttpContext) {}
+  async delete({ params, response }: HttpContext) {
+    const id = decodeURIComponent(params.id)
+    try {
+      await Objet.deleteOne({
+        _id: id
+      })
+      return response.status(200).json({
+        message: 'Objet supprimer avec succès!'        
+      })
+    } catch(e) {
+      console.error(e) 
+      return response.status(500).send("Erreur de suppression d'objet")
+    }
+
+  }
 }

@@ -45,6 +45,18 @@ class ApiClient {
       throw _handleError(e);
     }
   }
+  Future<dynamic> delete(String endpoint, {dynamic body}) async {
+    try {
+      final uri = Uri.parse('$baseUrl$endpoint');
+      final response = await http.delete(
+        uri,
+        headers: _headers,
+        body: jsonEncode(body)
+      );
+    } catch (e) {
+      throw _handleError(e);
+    }
+  }
 
   dynamic _processResponse(http.Response response) {
     if (response.statusCode >= 200 && response.statusCode <= 300) {

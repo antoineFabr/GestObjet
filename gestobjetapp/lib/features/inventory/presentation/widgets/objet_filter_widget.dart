@@ -12,8 +12,8 @@ class ObjetFilterWidget extends StatelessWidget {
     for (final e in objects) {
       final lib = e.type?.libelle;
       if (lib != null) {
-        // 1. Si 'lib' existe déjà, elle exécute (value) => value + 1
-        // 2. Si 'lib' n'existe pas (ifAbsent), elle initialise à 1
+        //Si 'lib' existe déjà, elle exécute (value) => value + 1
+        //Si 'lib' n'existe pas (ifAbsent), elle initialise à 1
         categories.update(lib, (value) => value + 1, ifAbsent: () => 1);
       }
     }
@@ -21,8 +21,7 @@ class ObjetFilterWidget extends StatelessWidget {
   }
 
   Widget build(BuildContext context) {
-    // 1. On transforme la Map en une Liste d'entrées pour pouvoir l'afficher
-    // ex: [{'Meuble': 3}, {'Info': 5}]
+    
     final categoryList = categories.entries.toList();
 
     return Material(

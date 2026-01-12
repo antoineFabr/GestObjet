@@ -7,7 +7,7 @@ class InventoryNotifier extends ChangeNotifier {
   final ObjetRepository _repository;
 
   bool isLoading = false;
-
+  bool isModify = false;
   String? errorMessage;
   List<Objet>? objets;
 
@@ -50,5 +50,26 @@ class InventoryNotifier extends ChangeNotifier {
       notifyListeners();
       return false;
     }
+  }
+  Future<bool> deleteObjet(String objetId) async {
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+    try {
+      await _repository.deleteObjet(objetId);
+      isLoading = false;
+      notifyListeners();
+      return true;
+    } catch(e) {
+      isLoading = false;
+      errorMessage = e.toString();
+      notifyListeners();
+      return false;
+    }
+  }
+
+  void toggleModifyMode() {
+    isModify = !isModify;
+    notifyListeners();
   }
 }

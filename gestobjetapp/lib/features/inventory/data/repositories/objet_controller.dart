@@ -29,4 +29,8 @@ class ObjetRepository {
       body: {'qrCode': qrCode, 'type': typeId, 'salles': salleId},
     );
   }
+
+  Future<void> deleteObjet(String objetId) async {
+    final response = await _apiClient.delete('/objet/$objetId');
+  }
 }

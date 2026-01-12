@@ -6,6 +6,7 @@ import 'package:gestobjetapp/features/inventory/presentation/notifiers/inventory
 import 'package:gestobjetapp/features/inventory/data/models/objet_model.dart';
 import 'package:gestobjetapp/features/inventory/presentation/widgets/objet_filter_widget.dart';
 import 'package:gestobjetapp/features/inventory/presentation/pages/objet_add_page.dart';
+import 'package:gestobjetapp/features/inventory/presentation/widgets/objet_modify_widget.dart';
 
 class ObjetPage extends StatefulWidget {
   final String SalleId;
@@ -62,11 +63,8 @@ class _ObjetPageState extends State<ObjetPage> {
               ),
             );
           }
-
-
-          
-
           // 4. Cas : Affichage des données
+          
           return Column(
             children: [
               if (inventoryNotifier.objets!.isEmpty) 
@@ -76,8 +74,31 @@ class _ObjetPageState extends State<ObjetPage> {
                   ),
                 )
               else 
+
                 Expanded(
-                  child: ObjetFilterWidget(objets: inventoryNotifier.objets!)
+                  child: Selector<InventoryNotifier,bool>(
+                    selector: (context, notifier) => notifier.isModify,
+                    builder: (context, isModifyMode, child) {
+                      final listeObjets = context.read<InventoryNotifier>().objets;
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+
+                        transitionBuilder: (Widget child, Animation<double> animation) {
+                          return FadeTransition(opacity: animation, child: child);
+                        },
+                        child: isModifyMode
+                          ? ObjetModifyWidget(
+                            key: const ValueKey('ModifyWidget'),
+                            objets: listeObjets!,
+                          ) 
+                          : ObjetFilterWidget(
+                              key: const ValueKey("FilterWidget"),
+                              objets: listeObjets!,
+                          )
+                      );
+                    
+                    }
+                  )
                 ),
               
               // Vos boutons d'action
@@ -107,6 +128,13 @@ class _ObjetPageState extends State<ObjetPage> {
                       icon: const Icon(Icons.add),
                       label: const Text("Ajouter"),
                     ),
+                    TextButton.icon(
+                      onPressed: () {
+                        context.read<InventoryNotifier>().toggleModifyMode();
+                      },
+                      icon: context.read<InventoryNotifier>().isModify ? const Icon(Icons.close): const Icon(Icons.edit),
+                      label: context.read<InventoryNotifier>().isModify ? const Text("Annuler") : const Text("Modifier"),
+                    )
                   ],
                 ),
               ),
