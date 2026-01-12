@@ -9,6 +9,7 @@ class InventoryNotifier extends ChangeNotifier {
   bool isLoading = false;
 
   String? errorMessage;
+  List<Objet>? objets;
 
   InventoryNotifier(this._repository);
 
@@ -19,6 +20,26 @@ class InventoryNotifier extends ChangeNotifier {
 
     try {
       await _repository.postObjet(qrCode, typeId, salleId);
+      await getObjetBySalle(salleId);
+      isLoading = false;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      isLoading = false;
+      errorMessage = e.toString();
+      print(errorMessage);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> getObjetBySalle(String salleId) async {
+    isLoading = true;
+
+    errorMessage = null;
+    notifyListeners();
+    try {
+      objets = await _repository.getObjetBySalle(salleId);
 
       isLoading = false;
       notifyListeners();
@@ -28,25 +49,6 @@ class InventoryNotifier extends ChangeNotifier {
       errorMessage = e.toString();
       notifyListeners();
       return false;
-    }
-  }
-
-  Future<List<Objet>> getObjetBySalle(String salleId) async {
-    isLoading = true;
-
-    errorMessage = null;
-    notifyListeners();
-    try {
-      List<Objet> objets = await _repository.getObjetBySalle(salleId);
-
-      isLoading = false;
-      notifyListeners();
-      return objets;
-    } catch (e) {
-      isLoading = false;
-      errorMessage = e.toString();
-      notifyListeners();
-      return <Objet>[];
     }
   }
 }

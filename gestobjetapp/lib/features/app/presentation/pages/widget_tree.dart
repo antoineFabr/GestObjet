@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestobjetapp/data/notifiers.dart';
+import 'package:gestobjetapp/features/app/presentation/notifiers/notifiers.dart';
 import 'package:gestobjetapp/features/locations/presentation/pages/salle_page.dart';
 import 'package:gestobjetapp/features/settings/presentation/pages/settings_page.dart';
 import 'package:gestobjetapp/features/app/presentation/widgets/navbar_widget.dart';

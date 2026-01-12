@@ -1,7 +1,6 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:http/http.dart' as http;
-import 'package:gestobjetapp/features/inventory/data/repositories/objet_controller.dart';
+import 'package:gestobjetapp/features/inventory/data/models/objet_model.dart';
 
 class Salle {
   final String id;

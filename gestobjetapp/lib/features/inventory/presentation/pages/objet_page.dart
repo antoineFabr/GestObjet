@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestobjetapp/core/services/api_client.dart';
 import 'package:provider/provider.dart';
 import 'package:gestobjetapp/features/inventory/data/repositories/objet_controller.dart';
 import 'package:gestobjetapp/features/inventory/presentation/notifiers/inventory_notifier.dart';
@@ -10,6 +11,12 @@ class ObjetPage extends StatefulWidget {
   final String SalleId;
   const ObjetPage({super.key, required this.SalleId});
 
+  static Widget wrapped({ required String salleId}) {
+    return ChangeNotifierProvider(
+      create: (context) => InventoryNotifier(ObjetRepository(ApiClient())),
+      child: ObjetPage(SalleId: salleId,)
+    );
+  }
   @override
   State<ObjetPage> createState() => _ObjetPageState();
 }
@@ -20,57 +27,87 @@ class _ObjetPageState extends State<ObjetPage> {
   @override
   void initState() {
     super.initState();
-    futureObjets = context.read<InventoryNotifier>().getObjetBySalle(
-      widget.SalleId,
-    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+       context.read<InventoryNotifier>().getObjetBySalle(widget.SalleId);
+    }
+    });
   }
 
   Widget build(BuildContext context) {
     final inventoryNotifier = context.watch<InventoryNotifier>();
+  
+   return Scaffold(
+      appBar: AppBar(title: const Text("Objets de la salle")),
+      body: Builder(
+        builder: (context) {
+          // 1. Cas : Chargement
+          if (inventoryNotifier.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-    return FutureBuilder<List<Objet>>(
-      future: futureObjets,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          print('snapshot.data = ${snapshot.data}');
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Impossible de récuperer les objets'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No objets found'));
-        } else {
-          final objets = snapshot.data!;
-          return Scaffold(
-            appBar: AppBar(title: Text("Objets de la salle")),
-            body: Column(
-              children: [
-                Expanded(child: ObjetFilterWidget(objets: objets)),
+          // 2. Cas : Erreur
+          if (inventoryNotifier.errorMessage != null) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Erreur: ${inventoryNotifier.errorMessage}"),
+                  ElevatedButton(
+                    onPressed: () => context.read<InventoryNotifier>().getObjetBySalle(widget.SalleId),
+                    child: const Text("Réessayer"),
+                  )
+                ],
+              ),
+            );
+          }
 
-                TextButton.icon(
-                  onPressed: () {},
-                  label: Text("Verifier"),
-                  style: ButtonStyle(
-                    foregroundColor: WidgetStateProperty.all<Color>(
-                      Colors.blue,
+          // 3. Cas : Liste vide
+          // (Adaptez 'objets' selon le nom de la liste dans votre InventoryNotifier)
+          if (inventoryNotifier.objets!.isEmpty) {
+            return const Center(child: Text("Aucun objet trouvé dans cette salle."));
+          }
+
+          // 4. Cas : Affichage des données
+          return Column(
+            children: [
+              Expanded(child: ObjetFilterWidget(objets: inventoryNotifier.objets!)),
+              
+              // Vos boutons d'action
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.check),
+                      label: const Text("Vérifier"),
                     ),
-                  ),
+                    TextButton.icon(
+                      onPressed: () {
+                         Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ChangeNotifierProvider.value(
+                                value: inventoryNotifier,
+                                child: ObjetAddPage(SalleId: widget.SalleId),
+                              );
+                            }
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.add),
+                      label: const Text("Ajouter"),
+                    ),
+                  ],
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (context) =>
-                            ObjetAddPage(SalleId: widget.SalleId),
-                      ),
-                    );
-                  },
-                  child: Icon(Icons.add),
-                ),
-              ],
-            ),
+              ),
+            ],
           );
-        }
-      },
+        },
+      ),
     );
   }
 }

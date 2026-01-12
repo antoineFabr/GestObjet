@@ -17,7 +17,7 @@ class SalleWidget extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute<void>(
-              builder: (context) => ObjetPage(SalleId: salle.id),
+              builder: (context) => ObjetPage.wrapped(salleId: salle.id),
             ),
           );
         },
