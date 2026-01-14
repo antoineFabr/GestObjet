@@ -23,10 +23,26 @@ class ScannerRepository {
     return response.map((data) => Objet.fromJson(data as Map<String, dynamic>));
   }
 
-  String CheckSalle(List<Objet> objets, List<Objet> objetsVerify) {
-    if (objets == objetsVerify) {
-      return "Tout est là";
+  List<List<Objet>> CheckSalle(List<Objet> objetsPrevus, List<Objet> objetsScannes) {
+
+    final idsPrevus = objetsPrevus.map((e) => e.id).toSet();
+    final idsScannes = objetsScannes.map((e) => e.id).toSet();
+    List<Objet> objetsManquants = [];
+    List<Objet> objetsIntrus = [];
+
+    if(idsPrevus.length == idsScannes.length && idsPrevus.containsAll(idsScannes)){
+      return [objetsManquants, objetsIntrus];
     }
-    return "Il manque des choses";
+   
+    objetsManquants = objetsPrevus
+      .where((objet) => !idsScannes.contains(objet.id))
+      .toList();
+    
+    objetsIntrus = objetsScannes
+      .where((objet) => !idsPrevus.contains(objet.id))
+      .toList();
+
+    return [objetsManquants, objetsIntrus];
+
   }
 }

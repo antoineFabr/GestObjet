@@ -37,6 +37,7 @@ class _ScanningPageState extends State<ScanningPage> {
                 if (code != null) {
                   // Important : Mettez à jour votre notifier ici pour passer findQrCode à true
                   // scannerNotifier.setQrCodeFound(true); 
+                  scannerNotifier.toggleFindQrCode();
                   print('QR Code trouvé ! Contenu : $code');
                 }
               }

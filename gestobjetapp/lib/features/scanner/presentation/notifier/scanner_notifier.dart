@@ -12,7 +12,7 @@ class ScannerNotifier extends ChangeNotifier {
   String? errorMessage;
   String salleId;
   List<Objet>? objets;
-  List<Objet>? objetsScan;
+  List<Objet> objetsScan = [];
   ScannerNotifier(this._scannerRepository,this.salleId);
 
   Future<bool> scanObjet(String id) async {
@@ -21,7 +21,7 @@ class ScannerNotifier extends ChangeNotifier {
     notifyListeners();
     try {
       Objet objet = await _scannerRepository.verifyObjet(id);
-      //TODO méthode pour dire si ça va dans cette salle ou pas et s'il manque des objets
+      objetsScan.add(objet);
       isLoading = false;
       notifyListeners();
       return true;
@@ -31,6 +31,18 @@ class ScannerNotifier extends ChangeNotifier {
       notifyListeners();
       return false;
     }
+  }
+
+  Future<List<List<Objet>>> checkObjet() async {
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+    objets = await _scannerRepository.getObjetBySalle(salleId);
+    List<List<Objet>> wrongObjets = _scannerRepository.CheckSalle(objets!, objetsScan);
+    return wrongObjets;
+
+  //TODO Afficher la réponse de la méthode
+
   }
   void toggleFindQrCode() {
     findQrCode = !findQrCode;

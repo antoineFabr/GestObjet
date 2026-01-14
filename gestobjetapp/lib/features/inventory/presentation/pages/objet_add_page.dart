@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:gestobjetapp/features/inventory/presentation/notifiers/inventory_notifier.dart';
-import 'package:gestobjetapp/features/inventory/data/models/type_model.dart';
 
 class ObjetAddPage extends StatefulWidget {
   final String SalleId;
