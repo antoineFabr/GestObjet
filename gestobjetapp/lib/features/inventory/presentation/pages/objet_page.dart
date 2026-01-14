@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestobjetapp/core/services/api_client.dart';
 import 'package:gestobjetapp/features/inventory/data/repositories/type_controller.dart';
+import 'package:gestobjetapp/features/inventory/presentation/widgets/pdf_export_button_widget.dart';
 import 'package:gestobjetapp/features/scanner/presentation/pages/scanning_page.dart';
 import 'package:provider/provider.dart';
 import 'package:gestobjetapp/features/inventory/data/repositories/objet_controller.dart';
@@ -9,6 +10,7 @@ import 'package:gestobjetapp/features/inventory/data/models/objet_model.dart';
 import 'package:gestobjetapp/features/inventory/presentation/widgets/objet_filter_widget.dart';
 import 'package:gestobjetapp/features/inventory/presentation/pages/objet_add_page.dart';
 import 'package:gestobjetapp/features/inventory/presentation/widgets/objet_modify_widget.dart';
+import 'package:gestobjetapp/features/inventory/presentation/notifiers/inventory_notifier.dart';
 
 class ObjetPage extends StatefulWidget {
   final String SalleId;
@@ -109,11 +111,7 @@ class _ObjetPageState extends State<ObjetPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.check),
-                      label: const Text("Vérifier"),
-                    ),
+                    PdfExportButton(objets: inventoryNotifier.objets!),
                     TextButton.icon(
                       onPressed: () {
                          Navigator.of(context).push(
