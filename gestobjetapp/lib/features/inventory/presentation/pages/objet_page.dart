@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestobjetapp/core/services/api_client.dart';
+import 'package:gestobjetapp/features/inventory/data/repositories/type_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:gestobjetapp/features/inventory/data/repositories/objet_controller.dart';
 import 'package:gestobjetapp/features/inventory/presentation/notifiers/inventory_notifier.dart';
@@ -14,7 +15,7 @@ class ObjetPage extends StatefulWidget {
 
   static Widget wrapped({ required String salleId}) {
     return ChangeNotifierProvider(
-      create: (context) => InventoryNotifier(ObjetRepository(ApiClient()),salleId),
+      create: (context) => InventoryNotifier(ObjetRepository(ApiClient()),TypeRepository(ApiClient()),salleId),
       child: ObjetPage(SalleId: salleId,)
     );
   }

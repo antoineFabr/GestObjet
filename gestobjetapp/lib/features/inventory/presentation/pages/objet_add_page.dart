@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:gestobjetapp/features/inventory/data/repositories/type_controller.dart';
-import 'package:gestobjetapp/features/inventory/data/repositories/objet_controller.dart';
-import 'package:gestobjetapp/features/inventory/data/models/objet_model.dart';
 import 'package:gestobjetapp/features/inventory/presentation/notifiers/inventory_notifier.dart';
+import 'package:gestobjetapp/features/inventory/data/models/type_model.dart';
 
 class ObjetAddPage extends StatefulWidget {
   final String SalleId;
@@ -16,26 +14,23 @@ class ObjetAddPage extends StatefulWidget {
 
 class _ObjetAddPageState extends State<ObjetAddPage> {
   final _formKey = GlobalKey<FormState>();
-  late Future<List<Type>> futureType;
   Map<String, String> listLibelles = {};
   String? _qrCode;
   String? selectedType;
   @override
   void initState() {
     super.initState();
-    futureType = getAllType(); // TODO: a changer par nouvel api call
-    futureType.then((list) {
-      if (mounted) {
-        setState(() {
-          listLibelles = {for (var obj in list) obj.libelle: obj.id};
-        });
-      }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.read<InventoryNotifier>().getAllType();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final inventoryNotifier = context.watch<InventoryNotifier>();
+
+    final typesList = inventoryNotifier.types ?? [];
     return Scaffold(
       appBar: AppBar(title: const Text("Ajouter un objet")),
       // On ajoute un Padding pour que le formulaire ne colle pas aux bords
@@ -55,10 +50,10 @@ class _ObjetAddPageState extends State<ObjetAddPage> {
                 hint: const Text("Sélectionnez un type"),
 
                 // On transforme la Map<String, String> en List<DropdownMenuItem>
-                items: listLibelles.keys.map((String label) {
+                items: typesList.map((type) {
                   return DropdownMenuItem<String>(
-                    value: listLibelles[label],
-                    child: Text(label),
+                    value: type.id, // La valeur stockée (ID)
+                    child: Text(type.libelle), // Ce qu'on affiche (Libellé)
                   );
                 }).toList(),
 

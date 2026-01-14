@@ -1,4 +1,4 @@
-import 'package:gestobjetapp/features/inventory/data/repositories/type_controller.dart';
+import 'package:gestobjetapp/features/inventory/data/models/type_model.dart';
 
 class Objet {
   final String id;

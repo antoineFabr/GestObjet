@@ -1,19 +1,24 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:gestobjetapp/features/inventory/data/models/type_model.dart';
+import 'package:gestobjetapp/core/services/api_client.dart';
 
-class Type {
-  final String id;
-  final String libelle;
 
-  Type({required this.id, required this.libelle});
+class TypeRepository {
+  final ApiClient _apiClient;
 
-  factory Type.fromJson(Map<String, dynamic> json) {
-    return Type(
-      id: json['_id'] as String, // Toujours '_id' avec Mongo
-      libelle: json['libelle'] as String,
-    );
+  TypeRepository(this._apiClient);
+
+  Future<List<Type>> getAllType() async {
+    final response = await _apiClient.get('/type/');
+
+    return (response as List)
+        .map((data) => Type.fromJson(data as Map<String, dynamic>))
+        .toList();
   }
+
 }
+/*
 const baseUrl = "http://localhost:3333/api";
 Future<List<Type>> getAllType() async {
   final response = await http.get(Uri.parse('$baseUrl/type/'));
@@ -27,4 +32,4 @@ Future<List<Type>> getAllType() async {
 
     throw Exception('failed to load Salles');
   }
-}
+}*/
