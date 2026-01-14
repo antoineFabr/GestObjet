@@ -14,7 +14,7 @@ class ObjetPage extends StatefulWidget {
 
   static Widget wrapped({ required String salleId}) {
     return ChangeNotifierProvider(
-      create: (context) => InventoryNotifier(ObjetRepository(ApiClient())),
+      create: (context) => InventoryNotifier(ObjetRepository(ApiClient()),salleId),
       child: ObjetPage(SalleId: salleId,)
     );
   }

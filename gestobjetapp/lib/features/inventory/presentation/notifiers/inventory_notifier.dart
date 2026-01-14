@@ -10,8 +10,9 @@ class InventoryNotifier extends ChangeNotifier {
   bool isModify = false;
   String? errorMessage;
   List<Objet>? objets;
+  String salleId;
 
-  InventoryNotifier(this._repository);
+  InventoryNotifier(this._repository,this.salleId);
 
   Future<bool> createObjet(String qrCode, String typeId, String salleId) async {
     isLoading = true;
@@ -57,7 +58,9 @@ class InventoryNotifier extends ChangeNotifier {
     notifyListeners();
     try {
       await _repository.deleteObjet(objetId);
+      await getObjetBySalle(salleId);
       isLoading = false;
+      
       notifyListeners();
       return true;
     } catch(e) {

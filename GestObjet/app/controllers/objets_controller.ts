@@ -29,7 +29,7 @@ export default class ObjetsController {
   async create({ request, response }: HttpContext) {
     try {
       const payload = request.body()
-      const existObjet = await Objet.find({
+      const existObjet = await Objet.findOne({
         qrCode: payload.qrCode
       })
       if(existObjet) {

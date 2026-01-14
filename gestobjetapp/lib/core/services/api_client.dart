@@ -39,7 +39,7 @@ class ApiClient {
         headers: _headers,
         body: jsonEncode(body),
       );
-
+      print(response.body);
       return _processResponse(response);
     } catch (e) {
       throw _handleError(e);
@@ -51,8 +51,9 @@ class ApiClient {
       final response = await http.delete(
         uri,
         headers: _headers,
-        body: jsonEncode(body)
+        body: body != null ? jsonEncode(body) : null
       );
+      print(response.body);
     } catch (e) {
       throw _handleError(e);
     }

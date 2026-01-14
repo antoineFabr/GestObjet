@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestobjetapp/features/inventory/data/models/objet_model.dart';
 import 'package:provider/provider.dart'; 
+import 'package:gestobjetapp/features/inventory/presentation/notifiers/inventory_notifier.dart';
 
 class ObjetModifyWidget extends StatefulWidget {
   final List<Objet> objets;
