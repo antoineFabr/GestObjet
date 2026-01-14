@@ -1,0 +1,23 @@
+# --- Build Stage ---
+FROM node:20-alpine as builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+# Compile le TypeScript en JavaScript
+RUN node ace build --ignore-ts-errors
+
+# --- Production Stage ---
+FROM node:20-alpine
+WORKDIR /app
+# On installe seulement les dépendances de prod
+COPY package*.json ./
+RUN npm ci --omit=dev
+# On récupère le dossier build de l'étape précédente
+COPY --from=builder /app/build .
+# Copie le script de démarrage (qu'on va créer juste après)
+COPY start.sh .
+
+EXPOSE 3333
+# On lance via le script
+CMD ["./start.sh"]

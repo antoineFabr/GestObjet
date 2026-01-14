@@ -23,26 +23,29 @@ class ScannerRepository {
     return response.map((data) => Objet.fromJson(data as Map<String, dynamic>));
   }
 
-  List<List<Objet>> CheckSalle(List<Objet> objetsPrevus, List<Objet> objetsScannes) {
+  (List<Objet>,List<Objet>) CheckSalle(List<Objet> objetsPrevus, List<Objet> objetsScannes) {
 
     final idsPrevus = objetsPrevus.map((e) => e.id).toSet();
     final idsScannes = objetsScannes.map((e) => e.id).toSet();
+    
     List<Objet> objetsManquants = [];
     List<Objet> objetsIntrus = [];
-
+    print(idsScannes);
+    print(idsPrevus);
     if(idsPrevus.length == idsScannes.length && idsPrevus.containsAll(idsScannes)){
-      return [objetsManquants, objetsIntrus];
+      return (objetsManquants, objetsIntrus);
     }
    
     objetsManquants = objetsPrevus
       .where((objet) => !idsScannes.contains(objet.id))
       .toList();
-    
+    print(objetsManquants);
     objetsIntrus = objetsScannes
       .where((objet) => !idsPrevus.contains(objet.id))
       .toList();
+    print(objetsIntrus);
 
-    return [objetsManquants, objetsIntrus];
+    return (objetsManquants, objetsIntrus);
 
   }
 }
