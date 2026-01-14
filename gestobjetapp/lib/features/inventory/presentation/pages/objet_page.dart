@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestobjetapp/core/services/api_client.dart';
 import 'package:gestobjetapp/features/inventory/data/repositories/type_controller.dart';
+import 'package:gestobjetapp/features/scanner/presentation/pages/scanning_page.dart';
 import 'package:provider/provider.dart';
 import 'package:gestobjetapp/features/inventory/data/repositories/objet_controller.dart';
 import 'package:gestobjetapp/features/inventory/presentation/notifiers/inventory_notifier.dart';
@@ -135,7 +136,22 @@ class _ObjetPageState extends State<ObjetPage> {
                       },
                       icon: context.read<InventoryNotifier>().isModify ? const Icon(Icons.close): const Icon(Icons.edit),
                       label: context.read<InventoryNotifier>().isModify ? const Text("Annuler") : const Text("Modifier"),
-                    )
+                    ),
+                    TextButton.icon(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ScanningPage.wrapped(
+                                salleId: widget.SalleId,
+                              );
+                            }
+                          ),
+                        );
+                    },
+                    icon: const Icon(Icons.verified),
+                    label: const Text("Vérifier"),
+                    ),
                   ],
                 ),
               ),

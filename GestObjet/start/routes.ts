@@ -11,6 +11,7 @@ import router from '@adonisjs/core/services/router'
 import SallesController from '#controllers/salles_controller'
 import ObjetsController from '#controllers/objets_controller'
 import TypesController from '#controllers/types_controller'
+import VerifiesController from '#controllers/verifies_controller'
 
 router
   .group(() => {
@@ -38,5 +39,10 @@ router
         router.get('/', [TypesController, 'getAll'])
       })
       .prefix('type')
+    router
+      .group(() => {
+        router.get('/:id', [VerifiesController, 'verify'])
+      })
+      .prefix('verify')
   })
   .prefix('api')
