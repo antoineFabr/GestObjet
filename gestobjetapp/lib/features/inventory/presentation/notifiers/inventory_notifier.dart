@@ -12,10 +12,12 @@ class InventoryNotifier extends ChangeNotifier {
 
   bool isLoading = false;
   bool isModify = false;
+  bool isCreatingType = false;
   String? errorMessage;
   List<Objet>? objets;
   String salleId;
   List<Type>? types;
+  Type? newType;
 
   InventoryNotifier(this._objetRepository,this._typeRepository,this.salleId);
 
@@ -92,9 +94,31 @@ class InventoryNotifier extends ChangeNotifier {
       return false;
     }
   }
+  Future<Type?> createType(String type) async {
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+    try {
+      newType = await _typeRepository.createType(type);
+      print(newType);
+      isLoading = false;
+      notifyListeners();
+      return newType;
+    } catch(e) {
+      print(e);
+      isLoading = false;
+      errorMessage = e.toString();
+      notifyListeners();
+      return null;
+    }
+  }
 
   void toggleModifyMode() {
     isModify = !isModify;
+    notifyListeners();
+  }
+  void toggleCreateType() {
+    isCreatingType = !isCreatingType;
     notifyListeners();
   }
 }

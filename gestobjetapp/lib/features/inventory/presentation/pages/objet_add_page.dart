@@ -16,6 +16,8 @@ class _ObjetAddPageState extends State<ObjetAddPage> {
   Map<String, String> listLibelles = {};
   String? _qrCode;
   String? selectedType;
+  String? newType;
+  String? type;
   @override
   void initState() {
     super.initState();
@@ -64,10 +66,46 @@ class _ObjetAddPageState extends State<ObjetAddPage> {
                 },
 
                 // Validation : Oblige l'utilisateur à choisir un type
-                validator: (value) =>
-                    value == null ? "Veuillez choisir un type" : null,
+                validator: (value){
+                    if (value == null && !inventoryNotifier.isCreatingType){
+                      return "Veuillez choisir un type";
+                    } 
+                    return null;
+                }
               ),
-              const SizedBox(height: 20), // Espace entre le champ et le bouton
+
+              TextButton.icon(
+                onPressed: (){
+                  context.read<InventoryNotifier>().toggleCreateType();
+                },
+                label: inventoryNotifier.isCreatingType ? const Text("Annuler") : const Text("Ajouter un type d'objet"),
+                icon: inventoryNotifier.isCreatingType ? const Icon(Icons.close) : const Icon(Icons.add),
+                
+              ),
+              const SizedBox(height: 20),
+
+
+              if (inventoryNotifier.isCreatingType) 
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "Nom du type",
+                    border: OutlineInputBorder()
+                  ),
+                  validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Il faut entrer le type";
+                  }
+                  return null;
+                },
+                onChanged: (String? value) {
+                  setState(() {
+                    newType = value;
+                  });
+                },
+              ),
+                
+                const SizedBox(height: 20), 
+               
 
               TextFormField(
                 decoration: const InputDecoration(
@@ -93,9 +131,30 @@ class _ObjetAddPageState extends State<ObjetAddPage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Création de l'objet"))
                     );
+                    type = selectedType;
+                    if(context.read<InventoryNotifier>().isCreatingType){
+                      final createdType = await context
+                          .read<InventoryNotifier>()
+                          .createType(newType!);
+
+                      if(createdType != null) {
+                        type = createdType.id;
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Erreur lors de la création du type"))
+                        );
+                        return;
+                      }
+                    }
+                    if (type == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Aucun type sélectionné"))
+                        );
+                        return;
+                    }
                     final success = await context
                         .read<InventoryNotifier>()
-                        .createObjet(_qrCode!, selectedType!, widget.SalleId);
+                        .createObjet(_qrCode!, type!, widget.SalleId);
                     if (success && mounted) {
                       Navigator.pop(context);
 

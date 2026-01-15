@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Gest Objet',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 103, 58, 183),
+          seedColor: Color.(26A163),
           brightness: Brightness.dark,
         ),
       ),

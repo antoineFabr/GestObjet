@@ -15,6 +15,14 @@ class TypeRepository {
         .toList();
   }
 
+  Future<Type> createType(String type) async {
+    final response = await _apiClient.post('/type/',
+      body: {'libelle': type}
+    );
+    print(response);
+    return Type.fromJson(response['type'] as Map<String, dynamic>);
+  }
+
 }
 /*
 const baseUrl = "http://localhost:3333/api";
