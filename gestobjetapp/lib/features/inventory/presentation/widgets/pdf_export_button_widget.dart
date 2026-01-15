@@ -83,7 +83,7 @@ class PdfExportButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      icon: const Icon(Icons.print),
+      icon: const Icon(Icons.qr_code),
       label: const Text("Exporter"),
       
       onPressed: () => _generatePdf(context),

@@ -14,6 +14,28 @@ export default class TypesController {
       return response.status(500).send('Erreur serveur')
     }
   }
+  async create({request, response}: HttpContext) {
+    try {
+      const payload = request.body()
+       const existType = await Type.findOne({
+        libelle: payload.libelle
+      })
+      if(existType) {
+        return response.status(400).json({
+          message: "Type déjà existant"
+        })
+      }
+
+      const newType = await Type.create({
+        libelle: payload.libelle
+      })
+
+      return response.status(200).send("Type créer avec succès")
+    } catch (err) {
+      console.error(err) 
+      return response.status(500).send("Erreur de création de type")
+    }
+  }
   
  
 }

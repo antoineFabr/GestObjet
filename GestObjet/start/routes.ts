@@ -37,6 +37,7 @@ router
     router
       .group(() => {
         router.get('/', [TypesController, 'getAll'])
+        router.post('/',[TypesController, 'create'])
       })
       .prefix('type')
     router
