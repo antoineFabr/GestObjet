@@ -30,7 +30,10 @@ export default class TypesController {
         libelle: payload.libelle
       })
 
-      return response.status(200).send("Type créer avec succès")
+      return response.status(200).json({
+        message: "Type créer avec succès",
+        type: newType,
+      })
     } catch (err) {
       console.error(err) 
       return response.status(500).send("Erreur de création de type")
