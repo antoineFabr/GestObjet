@@ -1,5 +1,3 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:gestobjetapp/features/inventory/data/models/type_model.dart';
 import 'package:gestobjetapp/core/services/api_client.dart';
 

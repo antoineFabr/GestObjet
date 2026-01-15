@@ -13,7 +13,7 @@ class ApiException implements Exception {
 }
 
 class ApiClient {
-  final String baseUrl = "http://localhost:3333/api";
+  final String baseUrl = "https://gestobjet-b5ewbzgxhcd4dzd2.switzerlandnorth-01.azurewebsites.net/api";
 
   Map<String, String> get _headers => {
     'Content-Type': 'application/json',

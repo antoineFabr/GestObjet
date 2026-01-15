@@ -6,11 +6,9 @@ import 'package:gestobjetapp/features/scanner/presentation/pages/scanning_page.d
 import 'package:provider/provider.dart';
 import 'package:gestobjetapp/features/inventory/data/repositories/objet_controller.dart';
 import 'package:gestobjetapp/features/inventory/presentation/notifiers/inventory_notifier.dart';
-import 'package:gestobjetapp/features/inventory/data/models/objet_model.dart';
 import 'package:gestobjetapp/features/inventory/presentation/widgets/objet_filter_widget.dart';
 import 'package:gestobjetapp/features/inventory/presentation/pages/objet_add_page.dart';
 import 'package:gestobjetapp/features/inventory/presentation/widgets/objet_modify_widget.dart';
-import 'package:gestobjetapp/features/inventory/presentation/notifiers/inventory_notifier.dart';
 
 class ObjetPage extends StatefulWidget {
   final String SalleId;
@@ -27,7 +25,6 @@ class ObjetPage extends StatefulWidget {
 }
 
 class _ObjetPageState extends State<ObjetPage> {
-  late Future<List<Objet>> futureObjets;
 
   @override
   void initState() {

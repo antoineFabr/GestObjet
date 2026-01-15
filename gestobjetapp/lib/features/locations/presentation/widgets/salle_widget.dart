@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gestobjetapp/features/locations/data/repositories/salle_controller.dart';
 import 'package:gestobjetapp/features/inventory/presentation/pages/objet_page.dart';
+import 'package:gestobjetapp/features/locations/data/models/salle_model.dart';
 
 class SalleWidget extends StatelessWidget {
   final Salle salle;

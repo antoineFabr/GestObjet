@@ -4,7 +4,7 @@ import 'package:gestobjetapp/features/locations/presentation/pages/salle_page.da
 import 'package:gestobjetapp/features/settings/presentation/pages/settings_page.dart';
 import 'package:gestobjetapp/features/app/presentation/widgets/navbar_widget.dart';
 
-List<Widget> pages = [HomePage(), SettingsPage()];
+List<Widget> pages = [HomePage.wrapped(), SettingsPage()];
 
 class WidgetTree extends StatefulWidget {
   const WidgetTree({super.key});
