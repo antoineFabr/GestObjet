@@ -13,7 +13,6 @@ class ResultScanningPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // J'utilise Scaffold c'est plus propre que Material pour une page entière
     return Scaffold(
       appBar: AppBar(title: const Text("Résultat du scan")),
       body: Column(
@@ -24,7 +23,6 @@ class ResultScanningPage extends StatelessWidget {
           ),
           const Text("Il manque :"),
           
-          // SOLUTION : On enveloppe la ListView dans Expanded
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(20),

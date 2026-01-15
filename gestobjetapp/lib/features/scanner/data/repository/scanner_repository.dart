@@ -20,7 +20,7 @@ class ScannerRepository {
   Future<Objet> verifyObjet(String id) async {
     final response = await _apiClient.get('/verify/$id');
 
-    return response.map((data) => Objet.fromJson(data as Map<String, dynamic>));
+    return Objet.fromJson(response as Map<String, dynamic>);
   }
 
   (List<Objet>,List<Objet>) CheckSalle(List<Objet> objetsPrevus, List<Objet> objetsScannes) {

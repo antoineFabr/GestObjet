@@ -10,6 +10,9 @@ export default class VerifiesController {
         try {
           const objet = await Objet.findOne({
             _id: id
+          }).populate({
+            path: 'type',
+            select: 'libelle'
           })
           return response.status(200).json(objet);
         } catch(e) {
