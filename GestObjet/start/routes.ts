@@ -29,6 +29,7 @@ router
       .group(() => {
         router.get('/', [ObjetsController, 'getAll'])
         router.get('/:id', [ObjetsController, 'getById'])
+        router.get('/:id/salle', [ObjetsController, 'getSalle'])
         router.post('/', [ObjetsController, 'create'])
         router.put('/:id', [ObjetsController, 'modify'])
         router.delete('/:id', [ObjetsController, 'delete'])

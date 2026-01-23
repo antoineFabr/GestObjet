@@ -4,6 +4,7 @@ import 'package:gestobjetapp/features/scanner/presentation/notifier/scanner_noti
 import 'package:gestobjetapp/features/scanner/presentation/pages/result_scanning_page.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:gestobjetapp/core/services/api_client.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 
@@ -63,6 +64,9 @@ class _ScanningPageState extends State<ScanningPage> {
                   scannerNotifier.scanObjet(code).then((success) {
                     if (success) {
                       print("Succès API !");
+                      //vibrations du téléphone Quand c'est un nouveau qrCode
+                      HapticFeedback.mediumImpact();
+
                       // Feedback visuel (Succès)
                       if (!scannerNotifier.findQrCode) {
                           scannerNotifier.toggleFindQrCode();

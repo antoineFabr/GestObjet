@@ -18,6 +18,23 @@ export default class ObjetsController {
     }
   }
 
+  async getSalle({params, response}: HttpContext) {
+
+    const id = params.id;
+    try {
+      const salle = await Salle.find({objets: id}).exec();
+      if (!salle) {
+        return response.status(404).send('salle pas trouvé')
+      }
+      return response.status(200).send(salle)
+    } catch (err) {
+      logger.error({ err: err }, `erreur lors de la récuperation de la salle`)
+      return response
+        .status(500)
+        .send(`erreur lors de la récuperation de la salle`)
+    }
+  }
+
   /**
    * Handle form submission for the create action
    */
