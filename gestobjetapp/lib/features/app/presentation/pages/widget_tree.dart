@@ -3,8 +3,9 @@ import 'package:gestobjetapp/features/app/presentation/notifiers/notifiers.dart'
 import 'package:gestobjetapp/features/locations/presentation/pages/salle_page.dart';
 import 'package:gestobjetapp/features/settings/presentation/pages/settings_page.dart';
 import 'package:gestobjetapp/features/app/presentation/widgets/navbar_widget.dart';
+import 'package:gestobjetapp/features/oukilva/presentation/pages/scann_page.dart';
 
-List<Widget> pages = [HomePage.wrapped(), SettingsPage()];
+List<Widget> pages = [HomePage.wrapped(),ScanningPage.wrapped(), SettingsPage()];
 
 class WidgetTree extends StatefulWidget {
   const WidgetTree({super.key});
